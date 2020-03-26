@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+<!-- loads title -->
+{% block title %} To-do List {% endblock %}
+
+{% block content %}
+
+<!-- sucess message -->
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-warning alert-dismissable" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+<!-- table of items -->
+{% if all_items %}
+<table class='table table-bordered'>
+    <thead class="thead-dark">
+        <tr>
+            <th><center>Items To Do:</center></th>
+            <th><center>Status</center></th>
+            <th><center>Remove Item</center></th>
+        </tr>
+    </thead>
+    {% for x in all_items %}
+        {% if x.completed %}
+            <tr class='table-success'>
+                <td class='striker'><a href="{% url 'edit' x.id %}">{{ x.item }}</a></td> 
+                <td><center><a href="{% url 'uncross' x.id %}">Uncross</a></center></td>
+                <td><center><a href="{% url 'delete' x.id %}">Delete </a></center></td>
+            </tr>
+        {% else %}
+        <tr>
+            <td><a href="{% url 'edit' x.id %}">{{ x.item }}</a></td> 
+            <td><center><a href="{% url 'cross_off' x.id %}">Cross Off</a></center></td>
+            <td><center><a href="{% url 'delete' x.id %}">Delete </a></center></td>
+        </tr>
+        {% endif %}
+    {% endfor %}
+</table>
+{% endif %}
+
+{% endblock %}
